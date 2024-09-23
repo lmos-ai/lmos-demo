@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: lmos.ai/v1
+kind: Channel
+metadata:
+  name: de-oneapp-stable
+  labels:
+    channel: oneapp
+    version: 1.0.0
+    tenant: de
+    subset: stable
+spec:
+  requiredCapabilities:
+    - name: get-weather-forecast
+      version: ">=1.0.4"

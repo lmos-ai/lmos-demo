@@ -1,0 +1,86 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: channel-rollout
+spec:
+  strategy:
+    canary:
+      canaryService: lmos-operator-canary  # required
+      stableService: lmos-operator-canary  # required
+      trafficRouting:
+        istio:
+          virtualService:
+            name: lmos-operator-vsvc   # required
+            routes:
+            - primary            # optional if there is a single route in VirtualService, required otherwise
+      steps:
+      - setWeight: 5
+      - pause:
+          duration: 10m
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: lmos-operator-vsvc
+spec:
+  hosts:
+  - lmos-operator-vsvc.default.svc.cluster.local
+  http:
+  - name: primary  # referenced in canary.trafficRouting.istio.virtualService.routes
+    route:
+    - destination:
+        host: lmos-operator-stable.default.svc.cluster.local
+        port:
+          number: 8080
+      weight: 100
+      headers:
+        request:
+          set:
+            x-subset: "stable"
+    - destination:
+        host: lmos-operator-canary.default.svc.cluster.local
+        port:
+          number: 8080
+      weight: 0
+      headers:
+        request:
+          set:
+            x-subset: "canary"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lmos-operator-stable
+spec:
+  ports:
+  - port: 8080
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: lmos-operator
+    # This selector will be updated with the pod-template-hash of the stable ReplicaSet
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lmos-operator-canary
+spec:
+  ports:
+  - port: 8080
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: lmos-operator
+    # This selector will be updated with the pod-template-hash of the canary ReplicaSet

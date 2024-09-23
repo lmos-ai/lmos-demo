@@ -1,0 +1,73 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: weather-agent
+  labels:
+    app.kubernetes.io/instance: weather-agent
+    app.kubernetes.io/name: weather-agent
+    app.kubernetes.io/version: 1.0.3
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: weather-agent
+      app.kubernetes.io/name: weather-agent
+  template:
+    metadata:
+      labels:
+        app: weather-agent
+        app.kubernetes.io/instance: weather-agent
+        app.kubernetes.io/name: weather-agent
+        app.kubernetes.io/version: 1.0.3
+        version: 1.0.3
+    spec:
+      containers:
+      - name: weather-agent
+        image: ghcr.io/lmos-ai/arc-weather-agent:1.0.3
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - secretRef:
+            name: openai-secrets
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources: {}
+        securityContext: {}
+      imagePullSecrets:
+      - name: docker-secrets
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20
+      - pause: {duration: 10}
+      - setWeight: 50
+      - pause: {duration: 10}
+      - setWeight: 100
