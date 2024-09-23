@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: openai-external
+spec:
+  hosts:
+  - gpt4-uk.openai.azure.com
+  addresses:
+    - 20.90.132.200  # Fixed IP address
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: STATIC
+  location: MESH_EXTERNAL
+  endpoints:
+    - address: 20.90.132.200  # Fixed IP address
+      ports:
+        https: 443  # Matching the port number
