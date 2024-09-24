@@ -24,10 +24,11 @@ Before you begin, ensure the following tools are installed and running on your l
 3. Open the Command Palette (F1 or Ctrl+Shift+P) and select `Remote-Containers: Reopen in Container`. This will build and open the repository in a Docker-based development container.
 
 ### Step 2: Export your OpenAI Key which should be used
-Once inside the development container, set up the necessary environment variables for OpenAI API access:
+Once inside the development container, set up the necessary environment variables for OpenAI API access in the `.env` file:.
+This OpenAPI access is used by the `lmos-runtime`.
 
 ```
-export OPENAI_API_KEY="<your key here>"
+OPENAI_API_KEY="<your key here>"
 ```
 
 ### Step 3: Check that Minikube and Istio started correctly

@@ -8,6 +8,14 @@ SPDX-PackageSupplier = "Deutsche Telekom AG <opensource@telekom.de>"
 SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/lmos-demo"
 
 [[annotations]]
+path = [
+    "*.env",
+    "istio/*.yaml"
+]
+SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["**/.gitignore", ".gitattributes", "pubspec.lock", "README.md"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "none"

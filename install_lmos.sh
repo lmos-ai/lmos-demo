@@ -7,7 +7,7 @@
 # Exit immediately if a command exits with a non-zero status
 #set -e
 
-export OPENAI_API_KEY="<insert key here>"
+source .env
 
 # Install lmos-operator chart
 helm upgrade --install lmos-operator oci://ghcr.io/lmos-ai/lmos-operator-chart \
