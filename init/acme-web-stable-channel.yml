@@ -5,11 +5,11 @@
 apiVersion: lmos.ai/v1
 kind: Channel
 metadata:
-  name: de-oneapp-stable
+  name: acme-web-stable
   labels:
-    channel: oneapp
+    tenant: acme
+    channel: web
     version: 1.0.0
-    tenant: de
     subset: stable
 spec:
   requiredCapabilities:

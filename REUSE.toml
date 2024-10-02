@@ -10,8 +10,7 @@ SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/lmos-demo"
 [[annotations]]
 path = [
     "*.env",
-    "istio/*.yaml",
-    "*.cast"
+    "istio/*.yaml"
 ]
 SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
 SPDX-License-Identifier = "Apache-2.0"

@@ -16,7 +16,7 @@
     "--memory=8g",   // Allocate 8 GB of memory to the DevContainer
     "--cpus=4"        // Allocate 4 CPUs to the DevContainer
   ],
-  "postCreateCommand": "./start_minikube.sh && ./install_istio.sh",
+  "postCreateCommand": "./init/start_minikube.sh && ./init/install_services.sh",
   "customizations": {
     "vscode": {
       "extensions": [
