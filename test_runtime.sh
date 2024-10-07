@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-curl --location 'http://localhost:8081/lmos/runtime/apis/v1/de/chat/12345/message' \
+curl --location 'http://localhost:8081/lmos/runtime/apis/v1/acme/chat/12345/message' \
 --header 'x-turn-id: 1234' \
 --header 'x-correlation-id: 1234' \
 --header 'x-subset: stable' \
@@ -20,7 +20,7 @@ curl --location 'http://localhost:8081/lmos/runtime/apis/v1/de/chat/12345/messag
         ]
     },
     "systemContext": {
-        "channelId": "oneapp"
+        "channelId": "web"
     },
     "userContext": {
         "userId": "user456"

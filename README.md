@@ -23,32 +23,19 @@ Before you begin, ensure the following tools are installed and running on your l
 
 3. Open the Command Palette (F1 or Ctrl+Shift+P) and select `Remote-Containers: Reopen in Container`. This will build and open the repository in a Docker-based development container.
 
-### Step 2: Export your OpenAI Key which should be used
-Once inside the development container, set up the necessary environment variables for OpenAI API access in the `.env` file:.
+### Step 2: Set OpenAI Connection Details
+Once inside the development container, set up the necessary environment variables for OpenAI API access in the `.env` file.
 This OpenAPI access is used by the `lmos-runtime`.
 
 ```
 OPENAI_API_KEY="<your key here>"
+OPENAI_URL="https://gpt4-uk.openai.azure.com"
+OPENAI_MODELNAME="GPT4o-mini"
 ```
 
-### Step 3: Check that Minikube and Istio started correctly
-Ensure that Minikube and Istio have started correctly by checking the status of their pods:
+### Step 3: Check the Setup
 
-```
-kubectl get pods -n istio-system
-```
-
-You have to wait until the pods are started. The `istio-ingressgateway` is not important.
-The status has to be `Running`.
-
-### Step 4: Install LMOS
-Now you can install the lmos-operatpr and lmos-runtime via Helm. This will deploy the necessary components for LMOS on this Kubernetes cluster.
-
-```
-./install_lmos.sh
-```
-
-You have to wait until the `lmos-operator` and `lmos-runtime` are started. To verify the installation, run:
+To verify the installation of LMOS, run:
 
 ```
 kubectl get pods
@@ -64,14 +51,7 @@ lmos-runtime-85654bc6bc-chvrj      2/2     Running   0          4m15s
 
 The status has to be `2/2 Running`.
 
-### Step 5: Install Agents
-Modify the `arc_config.env` file according to your specific requirements (e.g., API keys, URL). Once configured, install the LMOS agents using:
-
-```
-./install_agents.sh
-```
-
-This script installs two agents: a weather agent and a news agent. To verify the installation, run:
+Two agents have been installed, you can list them with 
 
 ```
 kubectl get agents
@@ -85,24 +65,9 @@ arc-news-agent      2m34s
 arc-weather-agent   2m35s
 ```
 
-### Step 6: Apply Channel Configuration
-Apply two different channel configurations: one for stable usage and one for canary testing.
-The stable version is only including a capability of the weather-agent. The Canary version is including capabilities of both agents.
+One channel has been defined, using the capability of the weather-agent.
 
-Stable Channel – Includes only the weather agent:
-
-``` 
-kubectl apply -f samples/de-oneapp-stable-channel.yml
-```
-
-Canary Channel – Includes both the weather and news agents:
-
-```
-kubectl apply -f samples/de-oneapp-canary-channel.yml
-```
-
-
-You can list all channels with the following command:
+You can list available channels with the following command:
 
 ```
 kubectl get channels
@@ -112,18 +77,17 @@ Output:
 
 ```
 NAME               RESOLVE_STATUS
-de-oneapp-canary   RESOLVED
-de-oneapp-stable   RESOLVED
+acme-web-stable    RESOLVED
 ```
 
-The `RESOLVE_STATUS` of both channels has be `RESOLVED`, that means the required capabilities have been resolved.
+The `RESOLVE_STATUS` of the channel has to be `RESOLVED`, which means the required capabilities have been resolved.
 If the status is `UNRESOLVED`, you can check the reason with: 
 
 ```
-kubectl get channel de-oneapp-stable -o yaml
+kubectl get channel acme-web-stable -o yaml
 ```
 
-The can list the resolved channelroutings with:
+You can list the resolved channelroutings with:
 
 ```
 kubectl get channelroutings
@@ -132,25 +96,21 @@ kubectl get channelroutings
 And look at a specific channel routing with:
 
 ```
-kubectl get channelrouting de-oneapp-stable -o yaml
+kubectl get channelrouting acme-web-stable -o yaml
 ```
 
-### Step 7: Access Kiali and Grafana
-To visualize your setup, you'll need to forward some ports. Run the port-forwarding.sh script to forward ports for LMOS, Kiali, and Grafana:
+### Step 4: Access Kiali and Grafana
 
-```
-./port-forwarding.sh
-```
+To visualize your setup, various ports have been forwarded for LMOS, Kiali, Prometheus, Jaeger, Grafana and ArgoCD. You can access these tools at
 
-This script will forward the following ports:
-
-- LMOS Runtime: http://localhost:8081
 - Kiali: http://localhost:20001
 - Grafana: http://localhost:3000
+- Prometheus: http://localhost:9090
+- Jaeger: http://localhost:9411
+- ArgoCD: http://localhost:3100
+- LMOS Runtime: http://localhost:8081
 
-You can now access Kiali and Grafana in your web browser using the URLs provided above.
-
-### Step 8: Execute a POST request
+### Step 5: Execute a POST request
 
 You can use Postman or the `test_runtime.sh` script to send a test request to the LMOS runtime. 
 The `lmos-runtime` is uses the `lmos-router` to route the request to the appropriate agent.
@@ -168,42 +128,6 @@ Output:
 ```
 
 You will see that the weather-agent has responded. 
-If you modify the request content to something the weather agent cannot handle, like: `"content": "Summarize the page https://containers.dev/"`
-
-```
-./test_runtime_2.sh
-```
-
-Output:
-
-```
-{"content":"I cannot help with that issue."}
-```
-
-The response will indicate that no agent can handle the request.
-
-### Step 9: Apply the canary configuration 
-To route all traffic to the canary configuration (which includes the news agent), apply the following Istio virtual service configuration:
-
-```
-kubectl apply -f istio/de-oneapp-vsvc-canary.yaml
-```
-
-### Step 10: Execute a second POST request
-Execute another test request using Postman or the test_runtime.sh script
-
-```
-./test_runtime_2.sh
-```
-
-Output:
-
-```
-{"content":"The page https://containers.dev/ is about \"Development Containers\" - which is an open specification for enriching containers with development-specific content and settings. It allows developers to use a container as a full-featured development environment, run applications, separate tools, libraries, or runtimes needed for working with a codebase, and aid in continuous integration and testing. It provides more information about the Development Container Specification, a reference implementation, supporting tools, and services."}
-```
-
-Now, requests like the one to summarize a web page will be handled by the news agent, as the request is forwarded to the canary configuration.
-
 
 ## Code of Conduct
 
