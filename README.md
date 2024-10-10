@@ -25,12 +25,12 @@ Before you begin, ensure the following tools are installed and running on your l
 
 ### Step 2: Set OpenAI Connection Details
 Once inside the development container, set up the necessary environment variables for OpenAI API access in the `.env` file.
-This OpenAPI access is used by the `lmos-runtime`.
+This OpenAPI access is used by the `lmos-runtime` and the agents.
 
 ```
-OPENAI_API_KEY="<your key here>"
-OPENAI_URL="https://gpt4-uk.openai.azure.com"
-OPENAI_MODELNAME="GPT4o-mini"
+OPENAI_APIKEY="<your-openai-api-key>"
+OPENAI_MODELNAME="gpt-4o-mini"
+OPENAI_URL="https://api.openai.com"
 ```
 
 ### Step 3: Check the Setup
