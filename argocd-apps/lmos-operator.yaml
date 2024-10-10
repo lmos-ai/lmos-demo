@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "lmos-operator"
+  namespace: argocd
+  finalizers: ["resources-finalizer.argocd.argoproj.io"]
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Replace=true
+      - PruneLast=true
+      - FailOnSharedResource=true
+      - ApplyOutOfSyncOnly=true
+  sources:
+  - repoURL: oci://ghcr.io/lmos-ai/lmos-operator-chart
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: lmos-demo
