@@ -28,14 +28,12 @@ helm upgrade --install lmos-operator oci://ghcr.io/lmos-ai/lmos-operator-chart \
 
 # Create Kubernetes openai secret for lmos-runtime
 kubectl delete secret lmos-runtime 2> /dev/null
-kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENAI_API_KEY"
-kubectl apply -f istio/openai-external-service-entry.yaml
+kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENAI_APIKEY"
 
 # Install lmos-runtime chart
 helm upgrade --install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart \
  --version 0.0.8-SNAPSHOT \
- --set openaiApiUrl="$OPENAI_API_URL" \
- --set openaiApiModel=GPT4o-mini \
+ --set openaiApiModel="$OPENAI_MODELNAME" \
  --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080
 
 # Wait for CRD to be created before installing agents
@@ -45,7 +43,10 @@ echo "LMOS agent CRD created."
 
 # Install agents
 kubectl delete secret openai-secrets 2>/dev/null
-kubectl create secret generic openai-secrets --from-env-file=arc_config.env
+kubectl create secret generic openai-secrets \
+    --from-literal=ARC_AI_CLIENTS_0_APIKEY="$OPENAI_APIKEY" \
+    --from-literal=ARC_AI_CLIENTS_0_MODEL="$OPENAI_MODELNAME" \
+    --from-literal=ARC_AI_CLIENTS_0_ID="OPENAI"
 
 helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/arc-weather-agent-chart --version 1.0.6
 helm upgrade --install news-agent oci://ghcr.io/lmos-ai/arc-news-agent-chart --version 1.0.6
