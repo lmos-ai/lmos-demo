@@ -70,3 +70,5 @@ nohup kubectl port-forward svc/lmos-runtime 8081:8081 >/dev/null 2>&1 &
 echo "Setting up channel..."
 # Stable Channel – Includes only the weather agent
 kubectl apply -f init/acme-web-stable-channel.yml
+# Route 100% of traffic to this channel
+kubectl apply -f istio/acme-web-vsvc-stable.yaml
