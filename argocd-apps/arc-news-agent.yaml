@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   finalizers: ["resources-finalizer.argocd.argoproj.io"]
 spec:
-  project: default
+  project: lmos-demo
   syncPolicy:
     automated:
       prune: true
@@ -15,9 +15,10 @@ spec:
       - PruneLast=true
       - FailOnSharedResource=true
       - ApplyOutOfSyncOnly=true
-  sources:
-  - repoURL: oci://ghcr.io/lmos-ai/arc-news-agent-chart
-    targetRevision: main
+  source:
+    chart: arc-news-agent-chart
+    repoURL: ghcr.io/lmos-ai
+    targetRevision: 1.0.6
   destination:
     server: https://kubernetes.default.svc
     namespace: lmos-demo
