@@ -19,6 +19,33 @@ spec:
     chart: arc-news-agent-chart
     repoURL: ghcr.io/lmos-ai
     targetRevision: 1.0.6
+    helm:
+      values: |-
+        podSecurityContext:
+          fsGroup: 185
+          runAsUser: 185
+          runAsGroup: 185
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+          supplementalGroups:
+            - 185
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - "ALL"
+          readOnlyRootFilesystem: true
+          runAsUser: 185
+
+        resources:
+          limits:
+            memory: 1024Mi
+          requests:
+            cpu: 50m
+            memory: 768Mi
   destination:
     server: https://kubernetes.default.svc
     namespace: lmos-demo
