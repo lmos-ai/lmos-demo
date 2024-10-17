@@ -46,9 +46,10 @@ echo "LMOS agent CRD created."
 kubectl delete secret openai-secrets 2>/dev/null
 kubectl create secret generic openai-secrets \
     --from-literal=ARC_AI_CLIENTS_0_APIKEY="$OPENAI_APIKEY" \
-    --from-literal=ARC_AI_CLIENTS_0_MODEL="$OPENAI_MODELNAME" \
+    --from-literal=ARC_AI_CLIENTS_0_MODELNAME="$OPENAI_MODELNAME" \
     --from-literal=ARC_AI_CLIENTS_0_URL="$OPENAI_URL" \
-    --from-literal=ARC_AI_CLIENTS_0_ID="OPENAI"
+    --from-literal=ARC_AI_CLIENTS_0_ID="OPENAI" \
+    --from-literal=ARC_AI_CLIENTS_0_CLIENT="$OPENAI_CLIENTNAME"
 
 helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/arc-weather-agent-chart --version 1.0.6
 helm upgrade --install news-agent oci://ghcr.io/lmos-ai/arc-news-agent-chart --version 1.0.6

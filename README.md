@@ -29,6 +29,7 @@ This OpenAPI access is used by the `lmos-runtime` and the agents.
 
 ```
 OPENAI_APIKEY="<your-openai-api-key>"
+OPENAI_CLIENTNAME="azure"
 OPENAI_MODELNAME="gpt-4o-mini"
 OPENAI_URL="https://api.openai.com"
 ```
