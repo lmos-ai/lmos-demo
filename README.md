@@ -130,6 +130,10 @@ Output:
 
 You will see that the weather-agent has responded. 
 
+## Using ArgoCD for deployment
+
+You can add the `argocd-apps` folder as new ArgoCD Application to your existing cluster ArgoCD managed cluster. You only need to adapt the secrets.yaml. 
+
 ## Code of Conduct
 
 This project has adopted the [Contributor Covenant](https://www.contributor-covenant.org/) in version 2.1 as our code of conduct. Please see the details in our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). All contributors must abide by the code of conduct.
