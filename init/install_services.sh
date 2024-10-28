@@ -24,7 +24,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 
 # Install lmos-operator chart
 helm upgrade --install lmos-operator oci://ghcr.io/lmos-ai/lmos-operator-chart \
- --version 0.0.4-SNAPSHOT
+ --version 0.1.0
 
 # Create Kubernetes openai secret for lmos-runtime
 kubectl delete secret lmos-runtime 2> /dev/null
@@ -32,7 +32,7 @@ kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENA
 
 # Install lmos-runtime chart
 helm upgrade --install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart \
- --version 0.0.8-SNAPSHOT \
+ --version 0.6.0 \
  --set openaiApiUrl="$OPENAI_URL" \
  --set openaiApiModel="$OPENAI_MODELNAME" \
  --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080
