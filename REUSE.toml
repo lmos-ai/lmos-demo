@@ -10,6 +10,7 @@ SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/lmos-demo"
 [[annotations]]
 path = [
     "*.env",
+    "argocd-apps/*.yaml",
     "istio/*.yaml"
 ]
 SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
