@@ -24,7 +24,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 
 # Install lmos-operator chart
 helm upgrade --install lmos-operator oci://ghcr.io/lmos-ai/lmos-operator-chart \
- --version 0.1.0
+ --version 0.2.0
 
 # Create Kubernetes openai secret for lmos-runtime
 kubectl delete secret lmos-runtime 2> /dev/null
@@ -51,8 +51,8 @@ kubectl create secret generic openai-secrets \
     --from-literal=ARC_AI_CLIENTS_0_ID="OPENAI" \
     --from-literal=ARC_AI_CLIENTS_0_CLIENT="$OPENAI_CLIENTNAME"
 
-helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/arc-weather-agent-chart --version 1.0.6
-helm upgrade --install news-agent oci://ghcr.io/lmos-ai/arc-news-agent-chart --version 1.0.6
+helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/weather-agent-chart --version 1.0.7-SNAPSHOT
+helm upgrade --install news-agent oci://ghcr.io/lmos-ai/news-agent-chart --version 1.0.7-SNAPSHOT
 
 # Wait for pods to be running
 echo "Waiting for pods to be running..."
