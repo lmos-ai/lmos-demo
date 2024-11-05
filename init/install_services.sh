@@ -32,7 +32,7 @@ kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENA
 
 # Install lmos-runtime chart
 helm upgrade --install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart \
- --version 0.6.0 \
+ --version 0.0.11-SNAPSHOT \
  --set openaiApiUrl="$OPENAI_URL" \
  --set openaiApiModel="$OPENAI_MODELNAME" \
  --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080
@@ -54,6 +54,9 @@ kubectl create secret generic openai-secrets \
 helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/weather-agent-chart --version 1.0.7-SNAPSHOT
 helm upgrade --install news-agent oci://ghcr.io/lmos-ai/news-agent-chart --version 1.0.7-SNAPSHOT
 
+# Install arc-view chart
+helm upgrade --install arc-view-runtime-web oci://ghcr.io/lmos-ai/arc-view-runtime-web-chart --version 0.1.0
+
 # Wait for pods to be running
 echo "Waiting for pods to be running..."
 while ! kubectl get pods -n istio-system | grep kiali | grep -q Running; do sleep 1; done
@@ -61,6 +64,7 @@ while ! kubectl get pods -n istio-system | grep grafana | grep -q Running; do sl
 while ! kubectl get pods -n istio-system | grep prometheus | grep -q Running; do sleep 1; done
 while ! kubectl get pods -n istio-system | grep jaeger | grep -q Running; do sleep 1; done
 while ! kubectl get pods | grep lmos-runtime | grep -q Running; do sleep 1; done
+while ! kubectl get pods | grep arc-view-runtime-web | grep -q Running; do sleep 1; done
 
 # Set up port forwarding
 echo "Setting up port forwarding..."
@@ -70,6 +74,7 @@ nohup kubectl -n istio-system port-forward svc/grafana 3000:3000 >/dev/null 2>&1
 nohup kubectl -n istio-system port-forward svc/prometheus 9090:9090 >/dev/null 2>&1 &
 nohup kubectl -n istio-system port-forward svc/tracing 9411:80 >/dev/null 2>&1 &
 nohup kubectl port-forward svc/lmos-runtime 8081:8081 >/dev/null 2>&1 &
+nohup kubectl port-forward svc/arc-view-runtime-web-service 8080:80 >/dev/null 2>&1 &
 
 echo "Setting up channel..."
 # Stable Channel – Includes only the weather agent
