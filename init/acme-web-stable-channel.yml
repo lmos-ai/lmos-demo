@@ -15,3 +15,7 @@ spec:
   requiredCapabilities:
     - name: get-weather-forecast
       version: ">=1.0.4"
+    - name: get-productsearch
+      version: "0.1.0"
+    - name: get-techspec
+      version: "0.1.0"

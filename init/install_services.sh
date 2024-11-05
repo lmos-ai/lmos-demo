@@ -53,6 +53,8 @@ kubectl create secret generic openai-secrets \
 
 helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/weather-agent-chart --version 1.0.7-SNAPSHOT
 helm upgrade --install news-agent oci://ghcr.io/lmos-ai/news-agent-chart --version 1.0.7-SNAPSHOT
+helm upgrade --install productsearch-agent oci://ghcr.io/lmos-ai/productsearch-agent-chart --version 0.1.0-snapshot
+helm upgrade --install techspec-agent oci://ghcr.io/lmos-ai/techspec-agent-chart --version 0.1.0-snapshot
 
 # Install arc-view chart
 helm upgrade --install arc-view-runtime-web oci://ghcr.io/lmos-ai/arc-view-runtime-web-chart --version 0.1.0
