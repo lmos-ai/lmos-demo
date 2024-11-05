@@ -5,13 +5,15 @@
 apiVersion: lmos.ai/v1
 kind: Channel
 metadata:
-  name: acme-web-stable
+  name: product-recommender
   labels:
-    tenant: acme
+    tenant: globex
     channel: web
     version: 1.0.0
     subset: stable
 spec:
   requiredCapabilities:
-    - name: get-weather-forecast
-      version: ">=1.0.4"
+    - name: get-productsearch
+      version: ">=0.1.0"
+    - name: get-techspec
+      version: ">=0.1.0"

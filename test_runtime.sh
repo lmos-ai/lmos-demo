@@ -15,7 +15,7 @@ curl --location 'http://localhost:8081/lmos/runtime/apis/v1/acme/chat/12345/mess
         {
             "role": "user",
             "format": "text",
-            "content": "I am looking Good Tv Specifications for my wall of size 8X10 fit with minimum sun light and i need good 360 degree sound quality"
+            "content": "How is the weather in London?"
         }
         ]
     },

@@ -53,8 +53,6 @@ kubectl create secret generic openai-secrets \
 
 helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/weather-agent-chart --version 1.0.7-SNAPSHOT
 helm upgrade --install news-agent oci://ghcr.io/lmos-ai/news-agent-chart --version 1.0.7-SNAPSHOT
-helm upgrade --install productsearch-agent oci://ghcr.io/lmos-ai/productsearch-agent-chart --version 0.1.0-snapshot
-helm upgrade --install techspec-agent oci://ghcr.io/lmos-ai/techspec-agent-chart --version 0.1.0-snapshot
 
 # Install arc-view chart
 helm upgrade --install arc-view-runtime-web oci://ghcr.io/lmos-ai/arc-view-runtime-web-chart --version 0.1.0
@@ -81,5 +79,6 @@ nohup kubectl port-forward svc/arc-view-runtime-web-service 8080:80 >/dev/null 2
 echo "Setting up channel..."
 # Stable Channel – Includes only the weather agent
 kubectl apply -f init/acme-web-stable-channel.yml
-# Route 100% of traffic to this channel
-kubectl apply -f istio/acme-web-vsvc-stable.yaml
+
+# Route 100% of traffic to stable channels
+kubectl apply -f istio/vsvc-stable.yaml
