@@ -110,6 +110,7 @@ To visualize your setup, various ports have been forwarded for LMOS, Kiali, Prom
 - Jaeger: http://localhost:9411
 - ArgoCD: http://localhost:3100
 - LMOS Runtime: http://localhost:8081
+- Arc View: http://localhost:8080
 
 ### Step 5: Execute a POST request
 
