@@ -79,5 +79,6 @@ nohup kubectl port-forward svc/arc-view-runtime-web-service 8080:80 >/dev/null 2
 echo "Setting up channel..."
 # Stable Channel – Includes only the weather agent
 kubectl apply -f init/acme-web-stable-channel.yml
-# Route 100% of traffic to this channel
-kubectl apply -f istio/acme-web-vsvc-stable.yaml
+
+# Route 100% of traffic to stable channels
+kubectl apply -f istio/vsvc-stable.yaml

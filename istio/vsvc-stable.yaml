@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: acme-web-vsvc
+  name: stable-vsvc
 spec:
   hosts:
   - lmos-operator.default.svc.cluster.local
