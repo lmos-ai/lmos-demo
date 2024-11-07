@@ -24,6 +24,7 @@ Before you begin, ensure the following tools are installed and running on your l
 3. Open the Command Palette (F1 or Ctrl+Shift+P) and select `Remote-Containers: Reopen in Container`. This will build and open the repository in a Docker-based development container.
 
 ### Step 2: Set OpenAI Connection Details
+
 Once inside the development container, set up the necessary environment variables for OpenAI API access in the `.env` file.
 This OpenAPI access is used by the `lmos-runtime` and the agents.
 
@@ -102,13 +103,11 @@ kubectl get channelrouting acme-web-stable -o yaml
 
 ### Step 4: Access Kiali and Grafana
 
-To visualize your setup, various ports have been forwarded for LMOS, Kiali, Prometheus, Jaeger, Grafana and ArgoCD. You can access these tools at
+To visualize your setup, various ports have been forwarded for LMOS, Kiali, Prometheus and Grafana. You can access these tools at
 
 - Kiali: http://localhost:20001
 - Grafana: http://localhost:3000
 - Prometheus: http://localhost:9090
-- Jaeger: http://localhost:9411
-- ArgoCD: http://localhost:3100
 - LMOS Runtime: http://localhost:8081
 - Arc View: http://localhost:8080
 
@@ -133,7 +132,7 @@ You will see that the weather-agent has responded.
 
 ## Using ArgoCD for deployment
 
-You can add the `argocd-apps` folder as new ArgoCD Application to your existing cluster ArgoCD managed cluster. You only need to adapt the secrets.yaml. 
+You can add the `argocd-apps` folder as new ArgoCD application to your existing cluster ArgoCD managed cluster. You only need to adapt the secrets.yaml. 
 
 ## Code of Conduct
 
