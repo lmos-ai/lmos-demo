@@ -17,3 +17,5 @@ spec:
       version: ">=0.1.0"
     - name: get-techspec
       version: ">=0.1.0"
+    - name: get-reportgenerate
+      version: ">=0.1.0"
