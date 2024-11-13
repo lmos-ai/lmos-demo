@@ -17,9 +17,9 @@ helm upgrade --install productsearch-agent oci://ghcr.io/lmos-ai/productsearch-a
 helm upgrade --install techspec-agent oci://ghcr.io/lmos-ai/techspec-agent-chart --version 0.1.0-SNAPSHOT
 helm upgrade --install reportgenerate-agent oci://ghcr.io/lmos-ai/reportgenerate-agent-chart --version 0.1.0-SNAPSHOT
 
-#add wait time
+# Add wait time
 while ! kubectl get pods | grep reportgenerate-agent | grep -q Running; do sleep 1; done
-#Port Forward
+# Forward the port
 nohup kubectl port-forward svc/reportgenerate-agent 8082:8080 >/dev/null 2>&1 &
 
 kubectl apply -f "$SCRIPT_DIR/product-recommender-channel.yml"
