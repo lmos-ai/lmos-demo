@@ -8,15 +8,13 @@
 #set -e
 
 source .env
-
 # Install Istio with the default profile and debug logging level
-istioctl operator init
+istioctl install -y
 kubectl apply -f istio/istio-operator.yaml
 
 #istioctl install --set profile=demo -y
 kubectl apply -f ${ISTIO_HOME}/samples/addons/prometheus.yaml
 kubectl apply -f ${ISTIO_HOME}/samples/addons/grafana.yaml
-kubectl apply -f ${ISTIO_HOME}/samples/addons/jaeger.yaml
 kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
 
 # Label the default namespace for Istio sidecar injection
@@ -62,17 +60,14 @@ echo "Waiting for pods to be running..."
 while ! kubectl get pods -n istio-system | grep kiali | grep -q Running; do sleep 1; done
 while ! kubectl get pods -n istio-system | grep grafana | grep -q Running; do sleep 1; done
 while ! kubectl get pods -n istio-system | grep prometheus | grep -q Running; do sleep 1; done
-while ! kubectl get pods -n istio-system | grep jaeger | grep -q Running; do sleep 1; done
 while ! kubectl get pods | grep lmos-runtime | grep -q Running; do sleep 1; done
 while ! kubectl get pods | grep arc-view-runtime-web | grep -q Running; do sleep 1; done
 
 # Set up port forwarding
 echo "Setting up port forwarding..."
-nohup kubectl argo rollouts dashboard >/dev/null 2>&1 &
 nohup kubectl -n istio-system port-forward svc/kiali 20001:20001 >/dev/null 2>&1 &
 nohup kubectl -n istio-system port-forward svc/grafana 3000:3000 >/dev/null 2>&1 &
 nohup kubectl -n istio-system port-forward svc/prometheus 9090:9090 >/dev/null 2>&1 &
-nohup kubectl -n istio-system port-forward svc/tracing 9411:80 >/dev/null 2>&1 &
 nohup kubectl port-forward svc/lmos-runtime 8081:8081 >/dev/null 2>&1 &
 nohup kubectl port-forward svc/arc-view-runtime-web-service 8080:80 >/dev/null 2>&1 &
 
