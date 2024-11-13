@@ -11,6 +11,6 @@ minikube delete || true
 
 # Start Minikube
 echo "Starting Minikube..."
-minikube start --driver=docker --memory=8192 --cpus=4
+minikube start --driver=docker --memory=6000 --cpus=4
 export KUBE_EDITOR="code -w" 
 echo "Minikube setup complete."
