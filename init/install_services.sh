@@ -8,9 +8,8 @@
 #set -e
 
 source .env
-
 # Install Istio with the default profile and debug logging level
-istioctl operator init
+istioctl install -y
 kubectl apply -f istio/istio-operator.yaml
 
 #istioctl install --set profile=demo -y
