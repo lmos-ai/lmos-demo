@@ -13,10 +13,10 @@
     }
   },
   "runArgs": [
-    "--memory=8g",   // Allocate 8 GB of memory to the DevContainer
+    "--memory=6g",   // Allocate 6 GB of memory to the DevContainer
     "--cpus=4"        // Allocate 4 CPUs to the DevContainer
   ],
-  "postCreateCommand": "./init/start_minikube.sh && ./init/install_services.sh",
+  "postCreateCommand": "./init/start_minikube.sh",
   "customizations": {
     "vscode": {
       "extensions": [
