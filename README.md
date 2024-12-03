@@ -21,7 +21,7 @@ Before you begin, ensure the following tools are installed and running on your l
 
 2. Open the repository in Visual Studio Code:
 
-3. Open the Command Palette (F1 or Ctrl+Shift+P) and select `Remote-Containers: Reopen in Container`. This will build and open the repository in a Docker-based development container.
+3. Open the Command Palette (F1 or Ctrl+Shift+P) and select `Remote-Containers: Reopen in Container`. This will build and open the repository in a Docker-based development container, in which Minikube is already installed and started.
 
 ### Step 2: Set OpenAI Connection Details
 
@@ -35,6 +35,14 @@ OPENAI_MODELNAME="gpt-4o-mini"
 OPENAI_URL="https://api.openai.com"
 ```
 
+### Step 3: Install LMOS
+
+Run the following commands to install LMOS onto Minikube:
+
+```shell
+./install.sh
+```
+
 ### Step 3: Check the Setup
 
 To verify the installation of LMOS, run:
@@ -46,60 +54,13 @@ kubectl get pods
 Output:
 
 ```
-NAME                               READY   STATUS    RESTARTS   AGE
-lmos-operator-c45887647-bcwf8      2/2     Running   0          4m16s
-lmos-runtime-85654bc6bc-chvrj      2/2     Running   0          4m15s
+NAME                                   READY   STATUS    RESTARTS   AGE
+arc-view-runtime-web-db8d87c59-54k7b   2/2     Running   0          87s
+lmos-operator-64bfb9b569-4l9qv         2/2     Running   0          2m22s
+lmos-runtime-59ffdbdc6f-v5jtr          2/2     Running   0          2m21s
 ```
 
-The status has to be `2/2 Running`.
-
-Two agents have been installed, you can list them with 
-
-```
-kubectl get agents
-```
-
-Output:
-
-```
-NAME                AGE
-arc-news-agent      2m34s
-arc-weather-agent   2m35s
-```
-
-One channel has been defined, using the capability of the weather-agent.
-
-You can list available channels with the following command:
-
-```
-kubectl get channels
-```
-
-Output:
-
-```
-NAME               RESOLVE_STATUS
-acme-web-stable    RESOLVED
-```
-
-The `RESOLVE_STATUS` of the channel has to be `RESOLVED`, which means the required capabilities have been resolved.
-If the status is `UNRESOLVED`, you can check the reason with: 
-
-```
-kubectl get channel acme-web-stable -o yaml
-```
-
-You can list the resolved channelroutings with:
-
-```
-kubectl get channelroutings
-```
-
-And look at a specific channel routing with:
-
-```
-kubectl get channelrouting acme-web-stable -o yaml
-```
+The status has to be `2/2 Running` for all three of them.
 
 ### Step 4: Access Kiali and Grafana
 
@@ -108,27 +69,19 @@ To visualize your setup, various ports have been forwarded for LMOS, Kiali, Prom
 - Kiali: http://localhost:20001
 - Grafana: http://localhost:3000
 - Prometheus: http://localhost:9090
-- LMOS Runtime: http://localhost:8081
-- Arc View: http://localhost:8080
 
-### Step 5: Execute a POST request
+The LMOS components can be accessed at:
+- Arc View: http://localhost:8080 (Web)
+- LMOS Runtime: http://localhost:8081 (API)
 
-You can use Postman or the `test_runtime.sh` script to send a test request to the LMOS runtime. 
-The `lmos-runtime` is uses the `lmos-router` to route the request to the appropriate agent.
+### Step 5: Install a demo
 
-To test the weather agent, run:
+In the `demos` folder, you can find various demo setups.
+To install a demo, run the corresponding `install.sh` script, e.g. for the `starter` demo:
 
+```shell
+./demos/starter/install.sh
 ```
-./test_runtime.sh
-```
-
-Output:
-
-```
-{"content":"The weather in London is 21 degrees."}
-```
-
-You will see that the weather-agent has responded. 
 
 ## Using ArgoCD for deployment
 
