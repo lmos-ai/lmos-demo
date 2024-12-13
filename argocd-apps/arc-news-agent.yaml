@@ -17,7 +17,7 @@ spec:
       - ApplyOutOfSyncOnly=true
   source:
     chart: arc-news-agent-chart
-    repoURL: ghcr.io/lmos-ai
+    repoURL: ghcr.io/eclipse-lmos
     targetRevision: 1.0.6
     helm:
       values: |-

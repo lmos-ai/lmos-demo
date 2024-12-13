@@ -5,7 +5,7 @@
 version = 1
 SPDX-PackageName = "lmos-demo"
 SPDX-PackageSupplier = "Deutsche Telekom AG <opensource@telekom.de>"
-SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/lmos-demo"
+SPDX-PackageDownloadLocation = "https://github.com/eclipse-lmos/lmos-demo"
 
 [[annotations]]
 path = [

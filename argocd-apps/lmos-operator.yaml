@@ -17,7 +17,7 @@ spec:
       - ApplyOutOfSyncOnly=true
   source:
     chart: lmos-operator-chart
-    repoURL: ghcr.io/lmos-ai
+    repoURL: ghcr.io/eclipse-lmos
     targetRevision: 0.1.0
     helm:
       values: |-

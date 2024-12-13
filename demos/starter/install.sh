@@ -19,8 +19,8 @@ kubectl create secret generic openai-secrets \
     --from-literal=ARC_AI_CLIENTS_0_ID="OPENAI" \
     --from-literal=ARC_AI_CLIENTS_0_CLIENT="$OPENAI_CLIENTNAME"
 
-helm upgrade --install weather-agent oci://ghcr.io/lmos-ai/weather-agent-chart --version 1.0.7
-helm upgrade --install news-agent oci://ghcr.io/lmos-ai/news-agent-chart --version 1.0.7
+helm upgrade --install weather-agent oci://ghcr.io/eclipse-lmos/weather-agent-chart --version 0.1.0-SNAPSHOT
+helm upgrade --install news-agent oci://ghcr.io/eclipse-lmos/news-agent-chart --version 0.1.0-SNAPSHOT
 
 echo "Setting up channel..."
 # Stable Channel – Includes the weather agent and news agent

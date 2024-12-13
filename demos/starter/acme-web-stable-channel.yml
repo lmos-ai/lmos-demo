@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-apiVersion: lmos.ai/v1
+apiVersion: lmos.eclipse/v1
 kind: Channel
 metadata:
   name: acme-web-stable
@@ -14,6 +14,6 @@ metadata:
 spec:
   requiredCapabilities:
     - name: get-weather-forecast
-      version: ">=1.0.7"
+      version: ">=0.1.0"
     - name: get-news
-      version: ">=1.0.7"
+      version: ">=0.1.0"

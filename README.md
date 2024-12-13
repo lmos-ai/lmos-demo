@@ -16,7 +16,7 @@ Before you begin, ensure the following tools are installed and running on your l
 
 1. Clone the repository:
     ```shell
-    git clone https://github.com/lmos-ai/lmos-demo.git
+    git clone https://github.com/eclipse-lmos/lmos-demo.git
     cd lmos-demo
 
 2. Open the repository in Visual Studio Code:

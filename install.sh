@@ -21,27 +21,27 @@ kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # Install lmos-operator chart
-helm upgrade --install lmos-operator oci://ghcr.io/lmos-ai/lmos-operator-chart \
- --version 0.2.0
+helm upgrade --install lmos-operator oci://ghcr.io/eclipse-lmos/lmos-operator-chart \
+ --version 0.1.0-SNAPSHOT
 
 # Create Kubernetes openai secret for lmos-runtime
 kubectl delete secret lmos-runtime 2> /dev/null
 kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENAI_APIKEY"
 
 # Install lmos-runtime chart
-helm upgrade --install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart \
- --version 0.0.11-SNAPSHOT \
+helm upgrade --install lmos-runtime oci://ghcr.io/eclipse-lmos/lmos-runtime-chart \
+ --version 0.1.0-SNAPSHOT \
  --set openaiApiUrl="$OPENAI_URL" \
  --set openaiApiModel="$OPENAI_MODELNAME" \
  --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080
 
 # Wait for CRD to be created before installing agents
 echo "Waiting for LMOS agent CRD to be created..."
-while ! kubectl get crd agents.lmos.ai >/dev/null 2>/dev/null; do sleep 1; done
+while ! kubectl get crd agents.lmos.eclipse >/dev/null 2>/dev/null; do sleep 1; done
 echo "LMOS agent CRD created."
 
 # Install arc-view chart
-helm upgrade --install arc-view-runtime-web oci://ghcr.io/lmos-ai/arc-view-runtime-web-chart --version 0.1.0
+helm upgrade --install arc-view-runtime-web oci://ghcr.io/eclipse-lmos/arc-view-runtime-web-chart --version 0.1.0-SNAPSHOT
 
 # Wait for pods to be running
 echo "Waiting for pods to be running..."
