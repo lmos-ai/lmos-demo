@@ -30,10 +30,11 @@ kubectl create secret generic lmos-runtime --from-literal=OPENAI_API_KEY="$OPENA
 
 # Install lmos-runtime chart
 helm upgrade --install lmos-runtime oci://ghcr.io/lmos-ai/lmos-runtime-chart \
- --version 0.0.11-SNAPSHOT \
+ --version 0.11.0-SNAPSHOT \
  --set openaiApiUrl="$OPENAI_URL" \
  --set openaiApiModel="$OPENAI_MODELNAME" \
- --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080
+ --set agentRegistryUrl=http://lmos-operator.default.svc.cluster.local:8080 \
+ --set corsEnabled=true
 
 # Wait for CRD to be created before installing agents
 echo "Waiting for LMOS agent CRD to be created..."
