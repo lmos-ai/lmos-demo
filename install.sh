@@ -9,8 +9,7 @@
 
 source .env
 # Install Istio with the default profile and debug logging level
-istioctl install -y
-kubectl apply -f istio/istio-operator.yaml
+istioctl install -y -f istio/istio-operator.yaml
 
 #istioctl install --set profile=demo -y
 kubectl apply -f ${ISTIO_HOME}/samples/addons/prometheus.yaml
